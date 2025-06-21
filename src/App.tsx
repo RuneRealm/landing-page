@@ -1,26 +1,32 @@
 import { Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Layout, Analytics, Loading } from './shared/components'
 import { createRoute } from './utils/routing'
-import Home from './pages/Home/Home'
+import { Analytics } from './shared/components'
+import Layout from './shared/components/Layout'
+import { Loading } from './shared/components/Loading/Loading'
+import HomePage from './pages/Home/HomePage'
+import GlobalStyles from './GlobalStyles'
 
 // Create route with automatic eager loading
-const About = createRoute(() => import('./pages/About/About'))
+const Roadmap = createRoute(() => import('./pages/Roadmap'))
 
 function App() {
   return (
-    <BrowserRouter>
-      <Analytics>
-        <Layout>
-          <Suspense fallback={<Loading />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-            </Routes>
-          </Suspense>
-        </Layout>
-      </Analytics>
-    </BrowserRouter>
+    <>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Analytics>
+          <Layout>
+            <Suspense fallback={<Loading />}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<Roadmap />} />
+              </Routes>
+            </Suspense>
+          </Layout>
+        </Analytics>
+      </BrowserRouter>
+    </>
   )
 }
 
