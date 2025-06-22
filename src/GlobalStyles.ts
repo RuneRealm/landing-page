@@ -22,7 +22,7 @@ const GlobalStyles = createGlobalStyle`
   html, body {
     font-family: 'Inter', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background: linear-gradient(to right, rgba(112, 82, 100, 0.8), rgba(186, 120, 103, 0.8));
-    color: var(--text-light);
+    // color: var(--text-light);
     min-height: 100vh;
     overflow-x: hidden;
     line-height: 1.6;

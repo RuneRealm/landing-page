@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { scrollToSection } from '../../../utils/scroll';
+import Sections from '../../../pages/Home/Sections';
 import Button from '../Button';
 import { RUNEREALM } from '@arcaogaming/project-links';
 
@@ -34,6 +36,8 @@ const HeaderContent = styled.div`
 `;
 
 const Logo = styled.div`
+  position: relative;
+  
   a {
     display: flex;
     align-items: center;
@@ -43,8 +47,20 @@ const Logo = styled.div`
   img {
     height: 80px;
     margin-right: 10px;
+    transition: transform 0.3s ease;
   }
   
+  &:hover {
+    img {
+      transform: scale(1.05);
+    }
+    
+    .logo-popup {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
   
   @media (max-width: 768px) {
     img {
@@ -54,6 +70,36 @@ const Logo = styled.div`
     span {
       font-size: 1.2rem;
     }
+  }
+`;
+
+const LogoPopup = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 15px;
+  width: 200px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 101;
+  
+  p {
+    margin: 0;
+    color: white;
+    font-size: 0.9rem;
+  }
+  
+  strong {
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 5px;
   }
 `;
 
@@ -79,6 +125,20 @@ const NavLink = styled(Link)`
   }
 `;
 
+const ScrollLink = styled.a`
+  margin: 0 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    color: var(--primary-color);
+  }
+`;
+
 const ActionButtons = styled.div`
   display: flex;
   align-items: center;
@@ -86,22 +146,53 @@ const ActionButtons = styled.div`
 `;
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+  
+  // Check if we're on the home page
+  const isHomePage = window.location.pathname === '/' || 
+                     window.location.pathname === '/home' ||
+                     Object.values(Sections).some(section => 
+                       window.location.pathname === `/${section}`);
+  
+  // Handle section navigation
+  const handleSectionClick = (sectionId: string) => {
+    if (isHomePage) {
+      // If we're on the home page, just scroll to the section
+      scrollToSection(sectionId, { offset: 80 });
+    } else {
+      // If we're on another page, navigate to home page with the section in the URL
+      navigate(sectionId === 'home' ? '/' : `/${sectionId}`);
+    }
+  };
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Logo>
-          <Link to="/">
+        <Logo onClick={() => handleSectionClick(Sections.home)}>
             <img src="/images/rune-realm-logo.png" alt="RuneRealm Logo" />
-          </Link>
         </Logo>
         
         <NavMenu>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/roadmap">Roadmap</NavLink>
-          <NavLink to="/features">Features</NavLink>
-          <NavLink to="/experience">Experience</NavLink>
-          <NavLink to="/ownership">Ownership</NavLink>
-          <NavLink to="/signup">Sign Up</NavLink>
+          <ScrollLink onClick={() => handleSectionClick(Sections.home)}>
+            Home
+          </ScrollLink>
+          <NavLink 
+            to="/roadmap" 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            Roadmap
+          </NavLink>
+          <ScrollLink onClick={() => handleSectionClick(Sections.features)}>
+            Features
+          </ScrollLink>
+          <ScrollLink onClick={() => handleSectionClick(Sections.experience)}>
+            Experience
+          </ScrollLink>
+          <ScrollLink onClick={() => handleSectionClick(Sections.ownership)}>
+            Ownership
+          </ScrollLink>
+          <ScrollLink onClick={() => handleSectionClick(Sections.signup)}>
+            Sign Up
+          </ScrollLink>
         </NavMenu>
         
         <ActionButtons>

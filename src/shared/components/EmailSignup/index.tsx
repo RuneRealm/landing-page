@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import Button from '../Button';
 
 const SignupSection = styled.section`
   padding: 100px 0;
@@ -57,111 +56,41 @@ const SignupDescription = styled.p`
   }
 `;
 
-const CustomForm = styled.form`
-  max-width: 600px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
 
-const FormGroup = styled.div`
-  text-align: left;
-`;
-
-const Label = styled.label`
+const IframeContainer = styled.div`
+  /* Reset styles but maintain box model */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  
+  /* Essential dimensions */
+  width: 100%;
+  height: 400px;
+  margin-top: 20px;
+  
+  /* Create a new stacking context to isolate the iframe */
+  position: relative;
+  z-index: 1;
   display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: var(--text-light);
-  font-size: 1rem;
 `;
 
-const Input = styled.input`
+const IframeStyled = styled.iframe`
+  all: initial; /* Reset all properties */
   width: 100%;
-  padding: 15px;
+  height: 100%;
+  border: none;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--text-light);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  
-  &:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 0 2px rgba(186, 120, 103, 0.3);
+  display: block;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  /* Prevent inheritance */
+  * {
+    all: revert;
   }
-  
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  padding: 15px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--text-light);
-  font-size: 1rem;
-  min-height: 120px;
-  resize: vertical;
-  font-family: inherit;
-  transition: all 0.3s ease;
-  
-  &:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 0 2px rgba(186, 120, 103, 0.3);
-  }
-  
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  margin-top: 10px;
-`;
-
-const LoadingSpinner = styled.div`
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-left: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: white;
-  animation: spin 0.8s linear infinite;
-  vertical-align: middle;
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
-const SuccessMessage = styled.div`
-  background: rgba(38, 166, 91, 0.2);
-  color: #4CAF50;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-  border: 1px solid rgba(38, 166, 91, 0.3);
-`;
-
-const ErrorMessage = styled.div`
-  background: rgba(239, 83, 80, 0.2);
-  color: #ef5350;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-  border: 1px solid rgba(239, 83, 80, 0.3);
 `;
 
 const EmailSignup: React.FC = () => {
@@ -170,67 +99,25 @@ const EmailSignup: React.FC = () => {
     triggerOnce: true
   });
   
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Load the form embed script dynamically
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://link.we-grow.agency/js/form_embed.js';
+    script.async = true;
+    document.body.appendChild(script);
     
-    if (!email) {
-      setError('Please enter your email address');
-      return;
-    }
-    
-    setLoading(true);
-    setError('');
-    
-    try {
-      // We'll use the same form ID from the iframe
-      const formId = 'snVqxVq6MskSoOrJK6vB';
-      const endpoint = `https://link.we-grow.agency/api/v1/form-capture/${formId}`;
-      
-      // Create form data
-      const formData = new FormData();
-      formData.append('email', email);
-      
-      if (message) {
-        formData.append('message', message);
-      }
-      
-      // Send the request
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json',
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error('Something went wrong. Please try again later.');
-      }
-      
-      // Success!
-      setSuccess(true);
-      setEmail('');
-      setMessage('');
-      
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Cleanup function to remove the script when component unmounts
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
   
   return (
     <SignupSection id="signup">
       <Container>
         <SignupCard
           ref={ref}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 1, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8 }}
         >
@@ -242,43 +129,24 @@ const EmailSignup: React.FC = () => {
             Sign up to receive the latest news, exclusive drops, and special offers from RuneRealm.
           </SignupDescription>
           
-          {success ? (
-            <SuccessMessage>
-              Thank you for subscribing! We'll keep you updated with the latest news and exclusive offers.
-            </SuccessMessage>
-          ) : (
-            <CustomForm onSubmit={handleSubmit}>
-              <FormGroup>
-                <Label htmlFor="email">Email Address</Label>
-                <Input 
-                  type="email" 
-                  id="email" 
-                  placeholder="Your email address" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </FormGroup>
-              
-              <FormGroup>
-                <Label htmlFor="message">Message (Optional)</Label>
-                <TextArea 
-                  id="message" 
-                  placeholder="Any questions or comments?"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-              </FormGroup>
-              
-              {error && <ErrorMessage>{error}</ErrorMessage>}
-              
-              <ButtonWrapper>
-                <Button type="submit" disabled={loading}>
-                  Subscribe {loading && <LoadingSpinner />}
-                </Button>
-              </ButtonWrapper>
-            </CustomForm>
-          )}
+          <IframeContainer>
+            <IframeStyled
+              src="https://link.we-grow.agency/widget/form/gARpJ5UzRBcl2xt3B9PR"
+              id="inline-gARpJ5UzRBcl2xt3B9PR" 
+              data-layout={`{"id":"INLINE"}`}
+              data-trigger-type="alwaysShow"
+              data-trigger-value=""
+              data-activation-type="alwaysActivated"
+              data-activation-value=""
+              data-deactivation-type="neverDeactivate"
+              data-deactivation-value=""
+              data-form-name="RuneRealm Email Signup"
+              data-height="400"
+              data-layout-iframe-id="inline-gARpJ5UzRBcl2xt3B9PR"
+              data-form-id="gARpJ5UzRBcl2xt3B9PR"
+              title="RuneRealm Email Signup"
+            />
+          </IframeContainer>
         </SignupCard>
       </Container>
     </SignupSection>

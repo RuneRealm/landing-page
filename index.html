@@ -1,13 +1,53 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title>RuneRealm Onchain MMORPG</title>
+    
+    <!-- Dynamic Meta Tags - Will be updated by script -->
+    <meta name="title" id="meta-title" content="RuneRealm - #1 Onchain MMORPG">
+    <meta name="description" id="meta-description" content="Explore the magical world of RuneRealm, the first fully on-chain MMORPG experience.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" id="og-url" content="/">
+    <meta property="og:title" id="og-title" content="RuneRealm - #1 Onchain MMORPG">
+    <meta property="og:description" id="og-description" content="Explore the magical world of RuneRealm, the first fully on-chain MMORPG experience.">
+    <meta property="og:image" id="og-image" content="/images/rune-realm-logo.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" id="twitter-url" content="/">
+    <meta property="twitter:title" id="twitter-title" content="RuneRealm - #1 Onchain MMORPG">
+    <meta property="twitter:description" id="twitter-description" content="Explore the magical world of RuneRealm, the first fully on-chain MMORPG experience.">
+    <meta property="twitter:image" id="twitter-image" content="/images/rune-realm-logo.png">
+    
+    <!-- Script to set domain name as metadata -->
+    <script>
+      (function() {
+        // Get current domain
+        const domain = window.location.hostname;
+        
+        // Create a meta tag for the domain name
+        const domainMeta = document.createElement('meta');
+        domainMeta.name = 'domain-name';
+        domainMeta.content = domain;
+        document.head.appendChild(domainMeta);
+        
+        // Set the current URL for og:url and twitter:url
+        const currentUrl = window.location.href;
+        document.getElementById("og-url").setAttribute("content", currentUrl);
+        document.getElementById("twitter-url").setAttribute("content", currentUrl);
+      })();
+    </script>
+
   </head>
   <body>
     <div id="root"></div>
+        <script src="https://link.we-grow.agency/js/form_embed.js"></script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

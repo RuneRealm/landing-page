@@ -250,25 +250,25 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener('wheel', handleWheel);
   }, [canScrollPast]);
   
-  // Handle scroll events
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!heroRef.current) return;
+  // // Handle scroll events
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (!heroRef.current) return;
       
-      const scrollTop = window.scrollY;
+  //     const scrollTop = window.scrollY;
       
-      // If we can't scroll past yet, lock at the top
-      if (!canScrollPast && scrollTop > 0) {
-        window.scrollTo(0, 0);
-      }
+  //     // If we can't scroll past yet, lock at the top
+  //     if (!canScrollPast && scrollTop > 0) {
+  //       window.scrollTo(0, 0);
+  //     }
       
-      // Store last scroll position
-      lastScrollY.current = scrollTop;
-    };
+  //     // Store last scroll position
+  //     lastScrollY.current = scrollTop;
+  //   };
     
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [canScrollPast]);
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, [canScrollPast]);
   
   // Handle touch events for mobile
   useEffect(() => {
