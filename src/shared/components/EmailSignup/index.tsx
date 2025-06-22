@@ -122,7 +122,7 @@ const EmailSignup: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <SignupTitle>
-            Stay <span>Updated</span>
+            Stay Updated
           </SignupTitle>
           
           <SignupDescription>
