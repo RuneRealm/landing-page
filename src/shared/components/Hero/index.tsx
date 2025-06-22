@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Button from '../Button';
+import { RUNEREALM } from '@arcaogaming/project-links';
 
 const HeroSection = styled.section`
   height: 100vh;
@@ -380,7 +381,7 @@ const Hero: React.FC = () => {
         <PlayButtonContainer>
           <EnhancedButton 
             primary
-            onClick={() => window.open('https://runerealm_game.ar.io/', '_blank')}
+            onClick={() => window.open(`${RUNEREALM.gameSite}`, '_blank')}
           >
             Play Now
           </EnhancedButton>

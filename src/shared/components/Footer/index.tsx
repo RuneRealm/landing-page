@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXTwitter, faDiscord, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import FooterBackground from '../FooterBackground';
+import { ARCAO, RUNEREALM } from '@arcaogaming/project-links';
 
 const FooterSection = styled.footer`
   position: relative;
@@ -168,13 +169,13 @@ const Footer: React.FC = () => {
             
             <FooterColumn>
               <SocialIcons>
-                <SocialIcon href="https://x.com/runerealm_ao" target="_blank" rel="noopener noreferrer" className="twitter">
+                <SocialIcon href={RUNEREALM.twitterFollow} target="_blank" rel="noopener noreferrer" className="twitter">
                   <FontAwesomeIcon icon={faXTwitter} />
                 </SocialIcon>
-                <SocialIcon href="https://discord.gg/runerealm" target="_blank" rel="noopener noreferrer" className="discord">
+                <SocialIcon href={RUNEREALM.discord} target="_blank" rel="noopener noreferrer" className="discord">
                   <FontAwesomeIcon icon={faDiscord} />
                 </SocialIcon>
-                <SocialIcon href="https://t.me/runerealm" target="_blank" rel="noopener noreferrer" className="telegram">
+                <SocialIcon href={RUNEREALM.telegram} target="_blank" rel="noopener noreferrer" className="telegram">
                   <FontAwesomeIcon icon={faTelegram} />
                 </SocialIcon>
               </SocialIcons>

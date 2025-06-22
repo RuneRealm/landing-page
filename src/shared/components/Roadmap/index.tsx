@@ -221,7 +221,7 @@ const TimelineMilestone: React.FC<{ milestone: Milestone; index: number }> = ({ 
 const Roadmap: React.FC = () => {
   const milestones = [
     {
-      date: "Q2 2023",
+      date: "Q4 2024",
       title: "Alpha Testing",
       description: "Our journey begins with a closed alpha test for our most dedicated community members.",
       achievements: [
@@ -232,7 +232,7 @@ const Roadmap: React.FC = () => {
       ]
     },
     {
-      date: "Q3 2023",
+      date: "Q1 2025",
       title: "Beta Launch",
       description: "Expanding to a larger player base with improved systems based on alpha feedback.",
       achievements: [
@@ -243,18 +243,7 @@ const Roadmap: React.FC = () => {
       ]
     },
     {
-      date: "Q4 2023",
-      title: "Marketplace Expansion",
-      description: "Opening up economic opportunities with a fully functional NFT marketplace.",
-      achievements: [
-        "Complete P2P trading system",
-        "NFT rarity verification system",
-        "Cross-chain marketplace support",
-        "Auction house implementation"
-      ]
-    },
-    {
-      date: "Q1 2024",
+      date: "Q2 2025",
       title: "Guild Wars Update",
       description: "Introducing large-scale PvP and collaborative gameplay elements.",
       achievements: [
@@ -265,7 +254,17 @@ const Roadmap: React.FC = () => {
       ]
     },
     {
-      date: "Q2 2024",
+      date: "Q3 2025",
+      title: "Marketplace Expansion",
+      description: "Opening up economic opportunities with a fully functional in game economomy & NFT marketplace.",
+      achievements: [
+        "Complete P2P trading system",
+        "NFT rarity verification system",
+        "Auction house implementation"
+      ]
+    },
+    {
+      date: "Q4 2025",
       title: "Mobile Launch",
       description: "Bringing the RuneRealm experience to iOS and Android devices.",
       achievements: [
@@ -276,7 +275,7 @@ const Roadmap: React.FC = () => {
       ]
     },
     {
-      date: "Q3 2024 & Beyond",
+      date: "2026 & Beyond",
       title: "Metaverse Integration",
       description: "Expanding RuneRealm into the broader metaverse ecosystem.",
       achievements: [

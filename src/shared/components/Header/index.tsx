@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from '../Button';
+import { RUNEREALM } from '@arcaogaming/project-links';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -97,15 +98,16 @@ const Header: React.FC = () => {
         <NavMenu>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/roadmap">Roadmap</NavLink>
-          <NavLink to="/#experience">Experience</NavLink>
-          <NavLink to="/#ownership">Ownership</NavLink>
-          <NavLink to="/#signup">Sign Up</NavLink>
+          <NavLink to="/features">Features</NavLink>
+          <NavLink to="/experience">Experience</NavLink>
+          <NavLink to="/ownership">Ownership</NavLink>
+          <NavLink to="/signup">Sign Up</NavLink>
         </NavMenu>
         
         <ActionButtons>
           <Button 
             primary 
-            onClick={() => window.open('https://runerealm_game.ar.io/', '_blank')}
+            onClick={() => window.open(`${RUNEREALM.gameSite}`, '_blank')}
           >
             Play Now
           </Button>

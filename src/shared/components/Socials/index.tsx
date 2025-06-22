@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiscord, faTelegram, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { RUNEREALM } from '@arcaogaming/project-links';
 
 // We'll use the public path instead of imports
 
@@ -116,21 +117,21 @@ const Socials: React.FC = () => {
       icon: faXTwitter,
       title: "Twitter",
       description: "Follow us for the latest updates and announcements",
-      url: "https://x.com/runerealm_ao",
+      url: RUNEREALM.twitterFollow,
       className: "twitter"
     },
     {
       icon: faDiscord,
       title: "Discord",
       description: "Join our community to connect with other players",
-      url: "https://discord.gg/arc-ao",
+      url: RUNEREALM.discord,
       className: "discord"
     },
     {
       icon: faTelegram,
       title: "Telegram",
       description: "Stay updated with news and chat with the team",
-      url: "https://t.me/ArcAOGames",
+      url: RUNEREALM.telegram,
       className: "telegram"
     }
   ];
