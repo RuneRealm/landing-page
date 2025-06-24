@@ -6,6 +6,7 @@ import { Loading } from './shared/components/Loading/Loading'
 import HomePage from './pages/Home/HomePage'
 import GlobalStyles from './GlobalStyles'
 import { createRoute } from './utils/routing'
+import { WalletProvider } from './shared/context/WalletContext'
 
 // Create route with automatic eager loading
 const Roadmap = createRoute(() => import('./pages/Roadmap/RoadmapPage'))
@@ -19,6 +20,7 @@ function App() {
       <BrowserRouter>
         <Analytics>
           <Layout>
+            <WalletProvider>
             {/* <Suspense fallback={<Loading />}> */}
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -31,6 +33,7 @@ function App() {
                 <Route path="/signup" element={<HomePage />} />
               </Routes>
             {/* </Suspense> */}
+            </WalletProvider>
           </Layout>
         </Analytics>
       </BrowserRouter>

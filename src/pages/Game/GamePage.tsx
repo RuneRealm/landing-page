@@ -6,6 +6,7 @@ import Header from "../../shared/components/Header";
 import { GameHero, GameFeatures, GameEndowment, GameMint } from "./components";
 import Sections from "./Sections";
 import { scrollToSection } from "../../utils/scroll";
+import { DelegationProvider } from "../../shared/context";
 
 const PageWrapper = styled.div`
   display: flex;
@@ -158,7 +159,9 @@ const GamePage: React.FC = () => {
             <GameEndowment />
           </div>
           <div id={Sections.mint}>
-            <GameMint />
+            <DelegationProvider>
+              <GameMint />
+            </DelegationProvider>
           </div>
         </GameContainer>
       </ContentWrapper>

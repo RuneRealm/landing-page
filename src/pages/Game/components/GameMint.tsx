@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHandHoldingHeart, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faHandHoldingHeart, faArrowRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Button from '../../../shared/components/Button';
 import { AO } from '@arcaogaming/project-links';
+import { useDelegation } from '../../../shared/context';
+import WalletConnection from '../../../shared/components/Wallet/WalletConnection';
 
 const MintSection = styled.section`
   padding: 80px 0;
@@ -108,6 +110,8 @@ const ButtonContainer = styled.div`
   margin-top: 30px;
   display: flex;
   justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
 `;
 
 const ActionButton = styled(Button)`
@@ -125,11 +129,64 @@ const ActionButton = styled(Button)`
   }
 `;
 
+const DelegationContainer = styled.div`
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-align: left;
+`;
+
+const DelegationTitle = styled.h3`
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--text-light);
+`;
+
+const DelegationItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const DelegationName = styled.span`
+  font-weight: 500;
+`;
+
+const DelegationValue = styled.span`
+  color: var(--primary-color);
+`;
+
+const LoadingSpinner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
 const GameMint: React.FC = () => {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true
   });
+  
+  const { delegations, loading, settingDelegation, setGameDelegation, connected } = useDelegation();
+  
+  // Delegation logic is now handled by the DelegationProvider
   
   const titleVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -173,6 +230,32 @@ const GameMint: React.FC = () => {
           <FontAwesomeIcon icon={faHandHoldingHeart} className="icon" />
         </IconContainer>
         
+        <WalletConnection/>
+        
+        {connected && (
+          <div style={{ minHeight: '150px' }}>
+            {loading ? (
+              <LoadingSpinner>
+                <FontAwesomeIcon icon={faSpinner} className="spinner" size="2x" />
+              </LoadingSpinner>
+            ) : (
+              <DelegationContainer>
+                <DelegationTitle>Your Current Delegations</DelegationTitle>
+                {delegations.length > 0 ? (
+                  delegations.map((delegation, index) => (
+                    <DelegationItem key={index}>
+                      <DelegationName>{delegation.delegatee}</DelegationName>
+                      <DelegationValue>{delegation.percentage}%</DelegationValue>
+                    </DelegationItem>
+                  ))
+                ) : (
+                  <Description>No delegations found. Set $GAME as your delegate to support the project.</Description>
+                )}
+              </DelegationContainer>
+            )}
+          </div>
+        )}
+        
         <Description>
           By delegating your AO Yield to the $GAME Fair Launch, you're not just redirecting resources—you're becoming an <Highlight>early-stage funder</Highlight> of the $GAME ecosystem.
         </Description>
@@ -186,8 +269,27 @@ const GameMint: React.FC = () => {
         </Description>
         
         <ButtonContainer>
+          {connected && (
+            <ActionButton 
+              primary
+              onClick={setGameDelegation}
+              disabled={settingDelegation}
+            >
+              {settingDelegation ? (
+                <>
+                  Setting Delegation...
+                  <FontAwesomeIcon icon={faSpinner} className="spinner" spin />
+                </>
+              ) : (
+                <>
+                  Set $GAME as Delegate
+                  <FontAwesomeIcon icon={faArrowRight} className="arrow-icon" />
+                </>
+              )}
+            </ActionButton>
+          )}
           <ActionButton 
-            primary
+            primary={!connected}
             onClick={() => window.open(AO.delegate, '_blank')}
           >
             Visit AO Delegations Page
