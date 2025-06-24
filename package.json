@@ -13,6 +13,12 @@
   },
   "dependencies": {
     "@arcaogaming/project-links": "1.0.24",
+    "@arweave-wallet-kit/browser-wallet-strategy": "0.1.1",
+    "@arweave-wallet-kit/core": "0.1.1",
+    "@arweave-wallet-kit/react": "0.3.2",
+    "@arweave-wallet-kit/styles": "0.1.1",
+    "@arweave-wallet-kit/wander-strategy": "0.1.2",
+    "@arweave-wallet-kit/webwallet-strategy": "0.0.1-beta.4",
     "@fortawesome/free-brands-svg-icons": "6.7.2",
     "@fortawesome/free-solid-svg-icons": "6.7.2",
     "@fortawesome/react-fontawesome": "0.2.2",

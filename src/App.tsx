@@ -9,6 +9,7 @@ import { createRoute } from './utils/routing'
 
 // Create route with automatic eager loading
 const Roadmap = createRoute(() => import('./pages/Roadmap/RoadmapPage'))
+const Game = createRoute(() => import('./pages/Game/GamePage'))
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/roadmap" element={<Roadmap />} />
+                <Route path="/game" element={<Game />} />
+                <Route path="/game/:section" element={<Game />} />
                 <Route path="/features" element={<HomePage />} />
                 <Route path="/experience" element={<HomePage />} />
                 <Route path="/ownership" element={<HomePage />} />

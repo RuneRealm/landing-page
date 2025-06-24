@@ -119,9 +119,67 @@ const NavLink = styled(Link)`
   font-size: 1rem;
   font-weight: 500;
   transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  position: relative;
   
   &:hover {
     color: var(--primary-color);
+  }
+`;
+
+const GameLink = styled(NavLink)`
+  position: relative;
+  
+  .game-coin {
+    position: absolute;
+    height: 1.25rem;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -100%) scale(0) rotateY(0deg);
+    opacity: 0;
+    z-index: 1;
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+  }
+  
+  &:hover .game-coin {
+    animation: marioCoinFlip 1s ease forwards;
+  }
+  
+  @keyframes marioCoinFlip {
+    0% {
+      transform: translate(-50%, 0) scale(0) rotateY(0deg);
+      opacity: 0;
+    }
+    10% {
+      transform: translate(-50%, -50%) scale(0.8) rotateY(90deg);
+      opacity: 1;
+    }
+    25% {
+      transform: translate(-50%, -120%) scale(1) rotateY(180deg);
+      opacity: 1;
+    }
+    40% {
+      transform: translate(-50%, -170%) scale(1) rotateY(270deg);
+      opacity: 1;
+    }
+    55% {
+      transform: translate(-50%, -200%) scale(1) rotateY(360deg);
+      opacity: 1;
+    }
+    70% {
+      transform: translate(-50%, -230%) scale(1) rotateY(450deg);
+      opacity: 0.8;
+    }
+    85% {
+      transform: translate(-50%, -250%) scale(0.8) rotateY(540deg);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -270%) scale(0.5) rotateY(630deg);
+      opacity: 0;
+    }
   }
 `;
 
@@ -181,18 +239,19 @@ const Header: React.FC = () => {
           >
             Roadmap
           </NavLink>
-          <ScrollLink onClick={() => handleSectionClick(Sections.features)}>
-            Features
-          </ScrollLink>
-          <ScrollLink onClick={() => handleSectionClick(Sections.experience)}>
-            Experience
-          </ScrollLink>
           <ScrollLink onClick={() => handleSectionClick(Sections.ownership)}>
             Ownership
           </ScrollLink>
           <ScrollLink onClick={() => handleSectionClick(Sections.signup)}>
             Sign Up
           </ScrollLink>
+          <GameLink 
+            to="/game" 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <span className="game-text">$GAME</span>
+            <img src="/arcao.png" alt="Game Icon" className="game-coin" />
+          </GameLink>
         </NavMenu>
         
         <ActionButtons>
