@@ -26,23 +26,23 @@ const NameAndAddressContainer = styled.div`
 const PlayerNameAndWallet = styled.div`
   font-size: 1.1em;
   font-weight: 600;
-  // color: #fff;
+  color: var(--primary-color);
 `;
 
 const WalletAddress = styled.div`
   font-size: 0.9em;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   transition: color 0.2s ease;
 
   &:hover {
-    color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 1);
   }
 `;
 
 const LoadingDot = styled.div`
   font-size: 0.9em;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(255, 255, 255, 0.7);
 `;
 
 const UserProfile: React.FC<UserProfileProps> = ({ 
@@ -103,14 +103,6 @@ const UserProfile: React.FC<UserProfileProps> = ({
         <WalletAddress onClick={() => onCopyAddress(address)}>
           {address.slice(0, 3)}...{address.slice(-3)}
         </WalletAddress>
-        {bazarProfile?.UserName && (
-          <WalletAddress onClick={() => {
-            console.log("[USER_PROFILE] Copying ProfileId:", bazarProfile.UserName);
-            onCopyAddress(bazarProfile.UserName!);
-          }}>
-            ID: {bazarProfile.UserName!}
-          </WalletAddress>
-        )}
       </NameAndAddressContainer>
     </UserInfoContainer>
   );

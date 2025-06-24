@@ -15,7 +15,7 @@ export const checkBazarProfile = async (address: string, retryCount = 0): Promis
     const profile = await profileClient.getProfileInfo()
     profileCache.setProfile(address, profile.Profile);
 
-    return null;
+    return profile.Profile;
   } catch (error) {
     console.error("Error checking Bazar profile:", error);
     

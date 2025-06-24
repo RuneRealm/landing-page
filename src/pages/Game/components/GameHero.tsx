@@ -1,7 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { ARCAO } from '@arcaogaming/project-links';
 
 const HeroSection = styled.section`
   padding: 100px 0 60px;
@@ -72,56 +73,63 @@ const Description = styled(motion.p)`
     margin-bottom: 2rem;
     line-height: 1.5;
   }
+  span {
+    &:hover {
+      color: var(--primary-color);
+    }
+
+    }
+  }
 `;
 
 const GameHero: React.FC = () => {
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true
-  });
-  
-  const titleVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-      }
-    }
-  };
-  
-  const descriptionVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: 0.2,
-        duration: 0.8,
-      }
-    }
-  };
-  
-  return (
-    <HeroSection ref={ref}>
-      <Title
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        variants={titleVariants}
-      >
-        $<span>GAME</span>
-      </Title>
-      <Description
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        variants={descriptionVariants}
-      >
-        $GAME is the token powering the Gaming economy of RuneRealm & ArcAO, 
-        enabling players to participate in a truly decentralized gaming experience.
-      </Description>
-    </HeroSection>
-  );
+    const [ref, inView] = useInView({
+        threshold: 0.1,
+        triggerOnce: true
+    });
+
+    const titleVariants = {
+        hidden: { opacity: 0, y: 50 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.8,
+            }
+        }
+    };
+
+    const descriptionVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                delay: 0.2,
+                duration: 0.8,
+            }
+        }
+    };
+
+    return (
+        <HeroSection ref={ref}>
+            <Title
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                variants={titleVariants}
+            >
+                $<span>GAME</span>
+            </Title>
+            <Description
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                variants={descriptionVariants}
+            >
+                $GAME is the token powering the Gaming economy of RuneRealm & <span><a href={ARCAO.website}>ArcAO</a></span>,
+                enabling players to participate in a truly decentralized gaming experience.
+            </Description>
+        </HeroSection>
+    );
 };
 
 export default GameHero;

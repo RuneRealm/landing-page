@@ -2,30 +2,45 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import UserProfile from '../../UserProfile/UserProfile';
 import { useWallet } from '../../context/WalletContext';
+import Button from '../../components/Button';
 
 const WalletContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 16px;
+  transition: all 0.3s ease;
+  
+  @media (max-width: 768px) {
+    gap: 12px;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 8px;
+  }
 `;
 
-const WalletButton = styled.button`
-  background: #eee;
-  color: black;
-  border: 1.5px solid black;
-  padding: 0.7rem 1.5rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.15s ease-in-out;
-
-  &:hover {
-    background-color: white;
+// Custom styled Button for consistent spacing in the wallet container
+const WalletButton = styled(Button)`
+  @media (max-width: 768px) {
+    padding: 8px 20px;
+    font-size: 0.95rem;
   }
+  
+  @media (max-width: 480px) {
+    padding: 6px 16px;
+    font-size: 0.9rem;
+  }
+`;
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+const ProfileContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  
+  @media (max-width: 480px) {
+    gap: 8px;
   }
 `;
 
@@ -76,19 +91,27 @@ const WalletConnection: React.FC<WalletConnectionProps> = ({
   return (
     <WalletContainer>
       {!isConnected ? (
-        <WalletButton onClick={handleConnect} disabled={isLoading}>
+        <WalletButton 
+          primary 
+          onClick={handleConnect} 
+          disabled={isLoading}
+        >
           {isLoading ? 'Connecting...' : 'Connect Wallet'}
         </WalletButton>
       ) : (
         <>
           {address && (
-            <UserProfile 
-              address={address}
-              bazarProfile={bazarProfile}
-              onCopyAddress={handleCopyAddress}
-            />
+            <ProfileContainer>
+              <UserProfile 
+                address={address}
+                bazarProfile={bazarProfile}
+                onCopyAddress={handleCopyAddress}
+              />
+            </ProfileContainer>
           )}
-          <WalletButton onClick={handleDisconnect}>
+          <WalletButton 
+            onClick={handleDisconnect}
+          >
             Disconnect
           </WalletButton>
         </>

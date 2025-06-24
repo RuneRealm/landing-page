@@ -8,6 +8,8 @@ import Button from '../../../shared/components/Button';
 import { AO } from '@arcaogaming/project-links';
 import { useDelegation } from '../../../shared/context';
 import WalletConnection from '../../../shared/components/Wallet/WalletConnection';
+import { useWallet } from '../../../shared/context/WalletContext';
+import { AUTONOMOUS_FINANCE } from 'ao-js-sdk/src/processes/ids/autonomous-finance';
 
 const MintSection = styled.section`
   padding: 80px 0;
@@ -183,11 +185,12 @@ const GameMint: React.FC = () => {
     threshold: 0.1,
     triggerOnce: true
   });
-  
-  const { delegations, loading, settingDelegation, setGameDelegation, connected } = useDelegation();
-  
+
+  const { isConnected } = useWallet()
+  const { delegations, loading, settingDelegation, setGameDelegation } = useDelegation();
+
   // Delegation logic is now handled by the DelegationProvider
-  
+
   const titleVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -198,7 +201,7 @@ const GameMint: React.FC = () => {
       }
     }
   };
-  
+
   const contentVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -210,7 +213,7 @@ const GameMint: React.FC = () => {
       }
     }
   };
-  
+
   return (
     <MintSection ref={ref}>
       <SectionTitle
@@ -218,9 +221,9 @@ const GameMint: React.FC = () => {
         animate={inView ? "visible" : "hidden"}
         variants={titleVariants}
       >
-        Support the Future of RuneRealm
+        Fuel RuneRealm’s Rise - Delegate to $GAME
       </SectionTitle>
-      
+
       <ContentContainer
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
@@ -229,10 +232,10 @@ const GameMint: React.FC = () => {
         <IconContainer>
           <FontAwesomeIcon icon={faHandHoldingHeart} className="icon" />
         </IconContainer>
-        
-        <WalletConnection/>
-        
-        {connected && (
+
+        <WalletConnection />
+
+        {isConnected && (
           <div style={{ minHeight: '150px' }}>
             {loading ? (
               <LoadingSpinner>
@@ -244,7 +247,15 @@ const GameMint: React.FC = () => {
                 {delegations.length > 0 ? (
                   delegations.map((delegation, index) => (
                     <DelegationItem key={index}>
-                      <DelegationName>{delegation.delegatee}</DelegationName>
+                      <DelegationName>
+                        {Object.entries(AUTONOMOUS_FINANCE.FAIR_LAUNCH_PROCESSES).find(
+                          ([key, value]) => value === delegation.delegatee
+                        ) 
+                          ? Object.entries(AUTONOMOUS_FINANCE.FAIR_LAUNCH_PROCESSES).find(
+                              ([key, value]) => value === delegation.delegatee
+                            )[0]
+                          : delegation.delegatee}
+                      </DelegationName>
                       <DelegationValue>{delegation.percentage}%</DelegationValue>
                     </DelegationItem>
                   ))
@@ -253,43 +264,48 @@ const GameMint: React.FC = () => {
                 )}
               </DelegationContainer>
             )}
+            <ButtonContainer>
+              {isConnected && (
+                <ActionButton
+                  primary
+                  onClick={setGameDelegation}
+                  disabled={settingDelegation}
+                >
+                  {settingDelegation ? (
+                    <>
+                      Setting Delegation...
+                      <FontAwesomeIcon icon={faSpinner} className="spinner" spin />
+                    </>
+                  ) : (
+                    <>
+                      Set $GAME as Delegate
+                      <FontAwesomeIcon icon={faArrowRight} className="arrow-icon" />
+                    </>
+                  )}
+                </ActionButton>
+              )}
+            </ButtonContainer>
           </div>
         )}
-        
+
         <Description>
-          By delegating your AO Yield to the $GAME Fair Launch, you're not just redirecting resources—you're becoming an <Highlight>early-stage funder</Highlight> of the $GAME ecosystem.
+          Fuel RuneRealm’s Rise. By delegating your AO Yield to the $GAME Fair Launch, you are not just redirecting resources. You are stepping in as an <Highlight>early-stage funder</Highlight> of the $GAME ecosystem.
         </Description>
-        
+
         <Description>
-          This exclusive delegation sets $GAME as your sole delegate, helping power its growth and development.
+          This exclusive delegation makes $GAME your sole delegate, directly powering its growth, development, and onchain game economy.
         </Description>
-        
+
         <Description>
-          Want more control? Visit the AO Delegations Page for granular options.
+          Prefer flexibility? Visit the AO Delegations Page to fine-tune your support.
         </Description>
-        
+
+
+
         <ButtonContainer>
-          {connected && (
-            <ActionButton 
-              primary
-              onClick={setGameDelegation}
-              disabled={settingDelegation}
-            >
-              {settingDelegation ? (
-                <>
-                  Setting Delegation...
-                  <FontAwesomeIcon icon={faSpinner} className="spinner" spin />
-                </>
-              ) : (
-                <>
-                  Set $GAME as Delegate
-                  <FontAwesomeIcon icon={faArrowRight} className="arrow-icon" />
-                </>
-              )}
-            </ActionButton>
-          )}
-          <ActionButton 
-            primary={!connected}
+
+          <ActionButton
+            primary={!isConnected}
             onClick={() => window.open(AO.delegate, '_blank')}
           >
             Visit AO Delegations Page
