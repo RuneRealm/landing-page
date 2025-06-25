@@ -32,6 +32,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/ar\.io\/.*/i,
@@ -52,9 +53,39 @@ export default defineConfig({
     // Optimize chunks
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'analytics': ['react-ga4']
+        manualChunks: (id) => {
+          // Create a vendors chunk for node_modules
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('react-ga4')) {
+              return 'analytics';
+            }
+            if (id.includes('arweave') || id.includes('ao-js-sdk')) {
+              return 'arweave-vendor';
+            }
+            if (id.includes('@emotion') || id.includes('@mui') || id.includes('styled-components')) {
+              return 'ui-vendor';
+            }
+            // Group remaining node_modules into chunks by first level directory
+            const modulePath = id.split('node_modules/').pop();
+            if (modulePath) {
+              const module = modulePath.split('/')[0].replace(/^@/, '');
+              return `vendor-${module}`;
+            }
+            return 'vendor-other';
+          }
+          
+          // Split app code by feature areas
+          if (id.includes('/pages/')) {
+            const page = id.split('/pages/')[1].split('/')[0];
+            return `page-${page}`;
+          }
+          if (id.includes('/shared/')) {
+            const shared = id.split('/shared/')[1].split('/')[0];
+            return `shared-${shared}`;
+          }
         }
       }
     },
@@ -73,7 +104,7 @@ export default defineConfig({
     // Enable asset optimization
     assetsInlineLimit: 4096,
     // Reduce chunk size warnings
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1500
   },
   // Enable SWC minification
   esbuild: {
