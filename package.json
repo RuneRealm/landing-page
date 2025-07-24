@@ -12,7 +12,7 @@
     "deploy-undername": "npm run build && permaweb-deploy --deploy-folder ./dist --arns-name $DEPLOY_ARNS_NAME --undername $DEPLOY_UNDERNAME"
   },
   "dependencies": {
-    "@arcaogaming/project-links": "1.0.30",
+    "@arcaogaming/project-links": "1.1.0",
     "@arweave-wallet-kit/browser-wallet-strategy": "0.1.1",
     "@arweave-wallet-kit/core": "0.1.1",
     "@arweave-wallet-kit/react": "0.3.2",

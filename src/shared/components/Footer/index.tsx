@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXTwitter, faDiscord, faTelegram } from '@fortawesome/free-brands-svg-icons';
+import { faXTwitter, faDiscord, faTelegram, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import FooterBackground from '../FooterBackground';
-import { ARCAO, RUNEREALM } from '@arcaogaming/project-links';
+import { RUNEREALM } from '@arcaogaming/project-links';
 
 const FooterSection = styled.footer`
   position: relative;
@@ -124,6 +124,10 @@ const SocialIcon = styled.a`
   &.telegram:hover {
     background: #0088cc;
   }
+
+  &.youtube:hover {
+    background: #FF0000;
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -177,6 +181,9 @@ const Footer: React.FC = () => {
                 </SocialIcon>
                 <SocialIcon href={RUNEREALM.telegram} target="_blank" rel="noopener noreferrer" className="telegram">
                   <FontAwesomeIcon icon={faTelegram} />
+                </SocialIcon>
+                <SocialIcon href={RUNEREALM.youtube} target="_blank" rel="noopener noreferrer" className="youtube">
+                  <FontAwesomeIcon icon={faYoutube} />
                 </SocialIcon>
               </SocialIcons>
               <Copyright>2025 RuneRealm. All rights reserved.</Copyright>
