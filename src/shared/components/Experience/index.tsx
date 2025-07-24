@@ -99,6 +99,7 @@ const ScreenshotImage = styled.img`
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
+  z-index: 0;
 `;
 
 const ScreenshotFallback = styled.div`
@@ -116,6 +117,7 @@ const ScreenshotFallback = styled.div`
   font-weight: 600;
   text-align: center;
   padding: 20px;
+  z-index: -1;
   &.fallback {
     display: flex;
   }
