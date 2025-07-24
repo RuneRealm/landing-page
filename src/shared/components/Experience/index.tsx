@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import Button from '../Button';
+import { RUNEREALM } from '@arcaogaming/project-links';
 
 const ExperienceSection = styled.section`
   padding: 100px 0;
@@ -378,7 +379,13 @@ const Experience: React.FC = () => {
           <CTADescription>
             Join thousands of players already exploring the vast world of RuneRealm. Your legend awaits.
           </CTADescription>
-          <Button primary large>Play Now</Button>
+          <Button
+            onClick={() => window.open(RUNEREALM.gameSite, '_blank')}
+            primary
+            large
+          >
+            Play Now
+          </Button>
         </CTAContainer>
       </Container>
     </ExperienceSection>

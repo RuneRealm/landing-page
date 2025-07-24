@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import Button from '../Button';
+import { BAZAR } from '@arcaogaming/project-links';
 
 const OwnershipSection = styled.section`
   padding: 100px 0;
@@ -266,7 +267,12 @@ const Ownership: React.FC = () => {
             ))}
           </FeatureList>
           
-          <Button primary>Explore NFT Marketplace</Button>
+          <Button
+            onClick={() => window.open(BAZAR.website, '_blank')}
+            primary
+          >
+            Explore NFT Marketplace
+          </Button>
         </ContentColumn>
         
         <ImageColumn
